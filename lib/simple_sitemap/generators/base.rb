@@ -23,6 +23,13 @@ module SimpleSitemap
         else
           Writers::PlainWriter.new.write path, xml
         end
+        call_hooks path if @hooks
+      end
+
+      def call_hooks(path)
+        if @hooks[:after_write]
+          @hooks[:after_write].call path
+        end
       end
 
     end

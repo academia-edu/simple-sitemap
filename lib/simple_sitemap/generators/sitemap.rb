@@ -84,9 +84,6 @@ module SimpleSitemap
         puts "Writing sitemap #{name}#{@sitemap_data[name][:index]}\t [#{@sitemap_data[name][:size]} urls]" if @config.verbose
         xml = to_xml name
         write_file sitemap_filename(name), xml
-        if @hooks and @hooks[:after_write]
-          @hooks[:after_write].call sitemap_filename(name)
-        end
         reset_sitemap_data name
         @sitemap_data[name][:index] += 1
         enter_sitemap name
