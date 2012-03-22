@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['rpjlower@gmail.com']
   gem.description   = 'A simple sitemap generator'
   gem.summary       = 'Simple sitemap generator'
-  gem.homepage      = ''
+  gem.homepage      = 'https://github.com/academia-edu/simple-sitemap'
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
