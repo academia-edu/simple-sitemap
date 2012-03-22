@@ -2,28 +2,62 @@
 
 A simple sitemap generator
 
-## Installation
+## Basic Usage
 
-Add this line to your application's Gemfile:
+### Configure
 
-    gem 'simple_sitemap'
+```ruby
+SimpleSitemap.configure do |config|
+  config.local_path = 'tmp/'
+  config.default_path = 'http://yoursite.com'
+  config.sitemap_location = 'http://yoursite.com/sitemap'
+end
+```
 
-And then execute:
+### Build your sitemap
 
-    $ bundle
+```ruby
+SimpleSitemap.build do
+  add_path 'home'
+  add_path 'about'
+  sitemap 'ryan' do
+    6.times do |i|
+      add_url i, priority: 0.5
+    end
+  end
+  sitemap 'lower' do
+    5.times do |i|
+      add_url i
+    end
+  end
+  sitemap 'ryan' do
+    6.times do |i|
+      add_path i, priority: 1.0
+    end
+  end
+  add_url 'http://signup.yoursite.com'
+  add_path 'login'
+end
+```
 
-Or install it yourself as:
+## Hooks
 
-    $ gem install simple_sitemap
+SimpleSitemap gives you a after_write hook for easy access to sitemap files as they are written.
 
-## Usage
+For example, to upload sitmaps to S3
 
-See example.rb
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+SimpleSitemap.after_write do |filename|
+  s3 = Fog::Storage.new({
+    provider: 'AWS',
+    aws_access_key_id: 'YOUR_AWS_KEY',
+    aws_secret_access_key: 'YOUR_AWS_SECRET'
+  })
+  bucket = s3.directories.first
+  bucket.files.create(
+    :key => File.basename(filename),
+    :body => open(filename),
+    :public => true
+  )
+end
+```
