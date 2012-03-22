@@ -1,6 +1,6 @@
 # SimpleSitemap
 
-TODO: Write a gem description
+A simple sitemap generator
 
 ## Installation
 
@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+See example.rb
 
 ## Contributing
 
