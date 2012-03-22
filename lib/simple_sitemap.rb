@@ -10,7 +10,7 @@ require 'simple_sitemap/version'
 
 module SimpleSitemap
 
-  MAX_LINKS_PER_FILE = 10000
+  MAX_LINKS_PER_FILE = 50000
   MAX_FILE_SIZE = 10*1024*1024 # 10 megabytes
 
   class << self
