@@ -81,7 +81,7 @@ module SimpleSitemap
       end
 
       def write(name)
-        puts "Write sitemap #{name}#{@sitemap_data[name][:index]}"
+        puts "Writing sitemap #{name}#{@sitemap_data[name][:index]}\t [#{@sitemap_data[@sitemap_name][:size]} urls]" if @config.verbose
         xml = to_xml name
         write_file sitemap_filename(name), xml
         if @hooks and @hooks[:after_write]

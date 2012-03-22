@@ -10,7 +10,7 @@ require 'simple_sitemap/version'
 
 module SimpleSitemap
 
-  MAX_LINKS_PER_FILE = 10
+  MAX_LINKS_PER_FILE = 10000
   MAX_FILE_SIZE = 10*1024*1024 # 10 megabytes
 
   class << self
@@ -20,6 +20,7 @@ module SimpleSitemap
     def configure(&block)
       @config = OpenStruct.new
       @config.gzip = true
+      @config.verbose = false
       yield @config
     end
 
@@ -28,7 +29,7 @@ module SimpleSitemap
       generator = Generators::Sitemap.new @config, @hooks
       generator.instance_eval &block
       generator.write!
-      puts "Time taken: #{Time.now - start_time}"
+      puts "Time taken: #{Time.now - start_time}" if @config.verbose
     end
 
     def after_write(&block)
