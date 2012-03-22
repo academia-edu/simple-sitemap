@@ -1,10 +1,12 @@
 
+$:.unshift '/Users/ryan/Code/simple_sitemap/lib'
+
 require 'simple_sitemap'
 
 SimpleSitemap.configure do |config|
-  config.local_path = 'tmp2/'
+  config.local_path = 'tmp/'
   config.default_path = 'http://ryanlower.com'
-  config.sitemap_location = 'http://ryanlower.com/sitemap/'
+  config.sitemap_location = 'http://ryanlower.com/sitemap'
   config.gzip = false
 end
 

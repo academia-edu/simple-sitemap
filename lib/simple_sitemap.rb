@@ -1,8 +1,11 @@
 
-require 'simple_sitemap/generator'
-require 'simple_sitemap/version'
+require 'simple_sitemap/generators/base'
+require 'simple_sitemap/generators/index'
+require 'simple_sitemap/generators/sitemap'
 require 'simple_sitemap/writers/gzip_writer'
 require 'simple_sitemap/writers/plain_writer'
+
+require 'simple_sitemap/version'
 
 
 module SimpleSitemap
@@ -22,7 +25,7 @@ module SimpleSitemap
 
     def build(opts={}, &block)
       start_time = Time.now
-      generator = Generator.new @config, @hooks
+      generator = Generators::Sitemap.new @config, @hooks
       generator.instance_eval &block
       generator.write!
       puts "Time taken: #{Time.now - start_time}"
