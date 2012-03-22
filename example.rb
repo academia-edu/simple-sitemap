@@ -10,7 +10,7 @@ SimpleSitemap.configure do |config|
   config.gzip = false
 end
 
-SimpleSitemap.after_write do |file|
+SimpleSitemap.after_write do |filename|
   puts "Got #{file}"
   # Do something magical
 end
