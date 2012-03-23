@@ -8,9 +8,9 @@ A simple sitemap generator
 
 ```ruby
 SimpleSitemap.configure do |config|
-  config.local_path = 'tmp/'
+  config.local_path = 'public/sitemaps/'
   config.default_path = 'http://yoursite.com'
-  config.sitemap_location = 'http://yoursite.com/sitemap'
+  config.sitemap_location = 'http://yoursite.com/sitemaps'
 end
 ```
 
@@ -47,6 +47,7 @@ SimpleSitemap gives you a after_write hook for easy access to sitemap files as t
 For example, to upload sitmaps to S3
 
 ```ruby
+require 'fog'
 SimpleSitemap.after_write do |filename|
   s3 = Fog::Storage.new({
     provider: 'AWS',
