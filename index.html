@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Simple-sitemap by academia-edu</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Simple-sitemap</h1>
+<p>A simple sitemap generator</p>
+        <p class="view"><a href="https://github.com/academia-edu/simple-sitemap">View the Project on GitHub <small>academia-edu/simple-sitemap</small></a></p>
+        <ul>
+          <li><a href="https://github.com/academia-edu/simple-sitemap/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/academia-edu/simple-sitemap/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/academia-edu/simple-sitemap">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Basic Usage</h2>
+
+<h3>Configure</h3>
+
+<div class="highlight">
+<pre><span class="no">SimpleSitemap</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">local_path</span> <span class="o">=</span> <span class="s1">'public/sitemaps/'</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">default_path</span> <span class="o">=</span> <span class="s1">'<a href="http://yoursite.com">http://yoursite.com</a>'</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">sitemap_location</span> <span class="o">=</span> <span class="s1">'<a href="http://yoursite.com/sitemaps">http://yoursite.com/sitemaps</a>'</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h3>Build your sitemap</h3>
+
+<div class="highlight">
+<pre><span class="no">SimpleSitemap</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">add_path</span> <span class="s1">'home'</span>
+  <span class="n">add_path</span> <span class="s1">'about'</span>
+  <span class="n">sitemap</span> <span class="s1">'ryan'</span> <span class="k">do</span>
+    <span class="mi">6</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+      <span class="n">add_url</span> <span class="n">i</span><span class="p">,</span> <span class="n">priority</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">sitemap</span> <span class="s1">'lower'</span> <span class="k">do</span>
+    <span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+      <span class="n">add_url</span> <span class="n">i</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">sitemap</span> <span class="s1">'ryan'</span> <span class="k">do</span>
+    <span class="mi">6</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+      <span class="n">add_path</span> <span class="n">i</span><span class="p">,</span> <span class="n">priority</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">add_url</span> <span class="s1">'<a href="http://signup.yoursite.com">http://signup.yoursite.com</a>'</span>
+  <span class="n">add_path</span> <span class="s1">'login'</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>Hooks</h2>
+
+<p>SimpleSitemap gives you a after_write hook for easy access to sitemap files as they are written.</p>
+
+<p>For example, to upload sitemaps to S3</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'fog'</span>
+<span class="no">SimpleSitemap</span><span class="o">.</span><span class="n">after_write</span> <span class="k">do</span> <span class="o">|</span><span class="n">filename</span><span class="o">|</span>
+  <span class="n">s3</span> <span class="o">=</span> <span class="no">Fog</span><span class="o">::</span><span class="no">Storage</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+    <span class="n">provider</span><span class="p">:</span> <span class="s1">'AWS'</span><span class="p">,</span>
+    <span class="n">aws_access_key_id</span><span class="p">:</span> <span class="s1">'YOUR_AWS_KEY'</span><span class="p">,</span>
+    <span class="n">aws_secret_access_key</span><span class="p">:</span> <span class="s1">'YOUR_AWS_SECRET'</span>
+  <span class="p">})</span>
+  <span class="n">bucket</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">directories</span><span class="o">.</span><span class="n">first</span>
+  <span class="n">bucket</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="no">File</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+    <span class="ss">:body</span> <span class="o">=&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+    <span class="ss">:public</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/academia-edu">academia-edu</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
