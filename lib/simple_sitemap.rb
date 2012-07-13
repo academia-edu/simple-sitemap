@@ -25,11 +25,12 @@ module SimpleSitemap
     end
 
     def build(opts={}, &block)
+      config = OpenStruct.new(@config.marshal_dump.merge opts)
       start_time = Time.now
-      generator = Generators::Sitemap.new @config, @hooks
+      generator = Generators::Sitemap.new config, @hooks
       generator.instance_eval &block
       generator.write!
-      puts "Time taken: #{Time.now - start_time}" if @config.verbose
+      puts "Time taken: #{Time.now - start_time}" if config.verbose
     end
 
     def after_write(&block)
