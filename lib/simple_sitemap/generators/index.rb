@@ -26,6 +26,9 @@ module SimpleSitemap
       def write!
         xml = to_xml
         index_filename = 'index.xml'
+        if @config.prefix
+          index_filename = "#{@config.prefix}_#{index_filename}"
+        end
         if @config.gzip
           index_filename << '.gz'
         end

@@ -105,6 +105,9 @@ module SimpleSitemap
         else
           "sitemap_#{index}.xml"
         end
+        if @config.prefix
+          filename = "#{@config.prefix}_#{filename}"
+        end
         if @config.gzip
           filename << '.gz'
         end
