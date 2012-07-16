@@ -17,7 +17,6 @@ module SimpleSitemap
       private
 
       def write_file(filename, xml)
-        filename = "#{@config.prefix}_#{filename}" if @config.prefix
         path = File.expand_path filename, @config.local_path
         if @config.gzip
           Writers::GzipWriter.new.write path, xml
