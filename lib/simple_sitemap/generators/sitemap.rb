@@ -120,7 +120,7 @@ module SimpleSitemap
             @sitemap_data[name][:links].each do |url|
               xml.url do
                 xml.loc url[:url]
-                # xml.lastmod url[:lastmod].utc if url[:lastmod]
+                xml.lastmod url[:lastmod].utc if url[:lastmod].respond_to?(:utc)
                 xml.changefreq url[:changefreq] if url[:changefreq]
                 xml.priority url[:priority] if url[:priority]
               end
