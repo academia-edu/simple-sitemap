@@ -1,4 +1,4 @@
-
+require 'time'
 require 'nokogiri'
 
 module SimpleSitemap
@@ -120,7 +120,7 @@ module SimpleSitemap
             @sitemap_data[name][:links].each do |url|
               xml.url do
                 xml.loc url[:url]
-                xml.lastmod url[:lastmod].utc if url[:lastmod].respond_to?(:utc)
+                xml.lastmod url[:lastmod].xmlschema if url[:lastmod].respond_to?(:xmlschema)
                 xml.changefreq url[:changefreq] if url[:changefreq]
                 xml.priority url[:priority] if url[:priority]
               end
