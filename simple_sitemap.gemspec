@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'simple_sitemap'
   gem.version       = SimpleSitemap::VERSION
 
-  gem.add_dependency 'nokogiri', '~> 1.5.0'
+  gem.add_dependency 'nokogiri', '~> 1.6.0'
 
   gem.authors       = ['ryanlower', 'capicue']
   gem.email         = ['rpjlower@gmail.com', 'stacey@touset.org']
