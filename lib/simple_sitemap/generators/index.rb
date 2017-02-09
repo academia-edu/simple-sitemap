@@ -12,6 +12,7 @@ module SimpleSitemap
       def initialize(config, hooks)
         super
         @sitemaps = []
+        @index_count = 1
       end
 
       def add_sitemap(name)
@@ -24,21 +25,25 @@ module SimpleSitemap
       end
 
       def write!
-        xml = to_xml
-        index_filename = 'index.xml'
-        if @config.prefix
-          index_filename = "#{@config.prefix}_#{index_filename}"
+        @sitemaps.each_slice(SimpleSitemap::MAX_INDEX_SIZE) do |sitemaps|
+          xml = to_xml(sitemaps)
+          write_file index_filename, xml
+          @index_count += 1
         end
-        if @config.gzip
-          index_filename << '.gz'
-        end
-        write_file index_filename, xml
       end
 
-      def to_xml
+      def index_filename
+        filename = "index.xml"
+        filename = "index_#{@index_count}.xml" if @index_count > 1
+        filename = "#{@config.prefix}_#{filename}" if @config.prefix
+        filename << '.gz' if @config.gzip
+        filename
+      end
+
+      def to_xml(sitemaps)
         builder = Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
           xml.sitemapindex(xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9') do
-            @sitemaps.each do |sitemap_url|
+            sitemaps.each do |sitemap_url|
               xml.sitemap do
                 xml.loc sitemap_url
               end
