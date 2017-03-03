@@ -12,7 +12,6 @@ module SimpleSitemap
       def initialize(config, hooks)
         super
         @sitemaps = []
-        @index_count = 1
       end
 
       def add_sitemap(name)
@@ -25,16 +24,15 @@ module SimpleSitemap
       end
 
       def write!
-        @sitemaps.each_slice(SimpleSitemap::MAX_INDEX_SIZE) do |sitemaps|
+        @sitemaps.each_slice(SimpleSitemap::MAX_INDEX_SIZE).with_index do |sitemaps, index_count|
           xml = to_xml(sitemaps)
-          write_file index_filename, xml
-          @index_count += 1
+          write_file index_filename(index_count), xml
         end
       end
 
-      def index_filename
+      def index_filename(index_count)
         filename = "index.xml"
-        filename = "index_#{@index_count}.xml" if @index_count > 1
+        filename = "index_#{index_count}.xml" if index_count > 1
         filename = "#{@config.prefix}_#{filename}" if @config.prefix
         filename << '.gz' if @config.gzip
         filename
