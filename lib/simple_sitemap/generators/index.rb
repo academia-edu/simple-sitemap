@@ -32,7 +32,7 @@ module SimpleSitemap
 
       def index_filename(index_count)
         filename = "index.xml"
-        filename = "index_#{index_count}.xml" if index_count > 1
+        filename = "index_#{index_count}.xml" if index_count > 0
         filename = "#{@config.prefix}_#{filename}" if @config.prefix
         filename << '.gz' if @config.gzip
         filename
