@@ -1,10 +1,10 @@
+require 'ostruct'
 
 require 'simple_sitemap/generators/base'
 require 'simple_sitemap/generators/index'
 require 'simple_sitemap/generators/sitemap'
 require 'simple_sitemap/writers/gzip_writer'
 require 'simple_sitemap/writers/plain_writer'
-
 require 'simple_sitemap/version'
 
 
