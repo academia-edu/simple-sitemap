@@ -9,8 +9,8 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'nokogiri', '~> 1.7.1'
 
-  gem.authors       = ['ryanlower', 'capicue']
-  gem.email         = ['rpjlower@gmail.com', 'stacey@touset.org']
+  gem.authors       = ['nate00']
+  gem.email         = ['nathanielsullivan00@gmail.com']
   gem.description   = 'A simple sitemap generator'
   gem.summary       = 'Simple sitemap generator'
   gem.homepage      = 'https://github.com/academia-edu/simple-sitemap'
