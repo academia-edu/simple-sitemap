@@ -12,6 +12,7 @@ module SimpleSitemap
 
   MAX_LINKS_PER_FILE = 50000
   MAX_FILE_SIZE = 10*1024*1024 # 10 megabytes
+  MAX_INDEX_SIZE = 1000
 
   class << self
 
